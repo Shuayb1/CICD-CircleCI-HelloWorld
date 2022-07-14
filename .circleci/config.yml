@@ -29,6 +29,17 @@ jobs:
     steps:
       - checkout
       - run:  echo world 
+  add-developer-name:
+    docker:
+      - image: img/base:2020.01
+    steps:
+     - checkout
+     - run:
+        name: "echo an env var that is part of our project"
+        command: 
+          echo $Developer_name
+
+
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
@@ -39,3 +50,4 @@ workflows:
       - print-world:
           requires: 
             - print-hello
+      - add-developer-name
