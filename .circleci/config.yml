@@ -58,11 +58,10 @@ jobs:
       - image: circleci/node:13.8.0
     steps:
       - run: return 1
-      - run: 
+      - run:
           name: on error
-          command: echo "There is an error!"
+          command: echo "The job failed!"
           when: on_fail
-  
 
 
 # Invoke jobs via workflows
