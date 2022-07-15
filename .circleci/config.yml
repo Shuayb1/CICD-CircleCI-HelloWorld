@@ -39,7 +39,23 @@ jobs:
         name: "echo an env var that is part of our project"
         command: 
           echo $Developer_name
-
+  save_hello_world_output:
+    docker: 
+      - image: circleci/node:13.8.0
+    steps:
+      - checkout
+      - run:  echo "hello world" > ~/output.txt
+      - persist_to_workspace: 
+          root: ~/
+          paths:
+            - output.txt
+  print_output_file:
+    docker: 
+      - image: circleci/node:13.8.0
+    steps:
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/outpu.txt
 
 
 # Invoke jobs via workflows
@@ -52,3 +68,7 @@ workflows:
           requires: 
             - print-hello
       - add-developer-name
+      - save_hello_world_output
+      - print_output_file
+          requires:
+            - save_hello_world_output
