@@ -1,6 +1,6 @@
 ---
 - name: remote instance
-  hosts: all
+  hosts: ec2-35-171-153-57.compute-1.amazonaws.com
   user: ubuntu
   become: true
   become_method: sudo
