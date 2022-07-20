@@ -1,5 +1,5 @@
 # Exercise - Rollback
-AWSTemplateFormatVersion: 2022-07-17
+#AWSTemplateFormatVersion: 2022-07-17
 Description: Shuayb Infrastructure
 Resources:
   EC2Instance:
