@@ -33,7 +33,7 @@ jobs:
           name: Run Playbook and Configure server
           command: |
             # Your command
-            ansible-playbook -i inventory.txt aws.yml
+            ansible-playbook aws.yml -i inventory --private-key ~/Persona-Instance.pem
 
 workflows:
   my_workflow:
