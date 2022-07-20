@@ -1,6 +1,6 @@
 ---
 - name: remote instance
-  hosts: all
+  hosts: 34.207.126.173
   user: ubuntu
   become: true
   become_method: sudo
