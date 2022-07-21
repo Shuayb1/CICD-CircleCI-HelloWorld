@@ -33,7 +33,7 @@ jobs:
           name: Run Playbook and Configure server
           command: |
             # Your command
-            ansible-playbook aws.yml -i inventory.txt
+            ansible-playbook aws.yml 
 
 workflows:
   my_workflow:
