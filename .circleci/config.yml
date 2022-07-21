@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
+  xx  
 commands:
    # Exercise - Rollback
    destroy_environment:
@@ -11,8 +14,7 @@ commands:
            when: on_fail
            command: |
              aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:7}
-orbs:
-  aws-cli: circleci/aws-cli@2.0.3
+
 jobs:
     #create infrastructure
   create_infrastructure: 
@@ -27,6 +29,10 @@ jobs:
               --template-file template.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
+      - run: return 1
+      - destroy_environment
+        when: on_fail
+
     #configure infrastructure
   configure_infrastructure: 
     docker:
@@ -63,7 +69,7 @@ jobs:
             else
               return 1
             fi
-            
+
   smoke_test:
     docker:
       - image: alpine:latest
@@ -78,4 +84,3 @@ workflows:
   my_workflow:
     jobs:
       - create_infrastructure
-      - smoke_test
