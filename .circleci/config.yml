@@ -4,7 +4,7 @@ orbs:
   aws-cli: circleci/aws-cli@2.0.3
   
 commands:
-   # Exercise - Rollback
+   # Rollback
    destroy_environment:
      steps:
        - run:
@@ -51,8 +51,9 @@ jobs:
           command: |
             # Your command
             ansible-playbook aws.yml -i inventory.txt
-    #Smoke Testing 1
-  smoke_test1:
+
+    #Smoke Testing
+  smoke_test:
     docker:
       - image: alpine:latest
     steps:
@@ -68,16 +69,6 @@ jobs:
             else
               return 1
             fi
-
-  smoke_test:
-    docker:
-      - image: alpine:latest
-    steps:
-      - run:
-          name: Test job
-          # Fail the job intentionally to simulate an error.
-          command:  return 1
-      - destroy_environment  
 
 workflows:
   my_workflow:
