@@ -3,38 +3,39 @@ version: 2.1
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 jobs:
-  # create_infrastructure: 
-  #   docker:
-  #     - image: amazon/aws-cli
-  #   steps:
-  #     - checkout
-  #     - run:
-  #         name: Create Cloudformation Stack
-  #         command: |
-  #           aws cloudformation deploy \
-  #             --template-file template.yml \
-  #             --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
-  #             --region us-east-1
-
-  # configure_infrastructure: 
-  #   docker:
-  #     - image: python:3.7-alpine3.11
-  #   steps:
-  #     - checkout
-  #     - add_ssh_keys:
-  #             # You can get this ID in the section where you registered the SSH Key
-  #             fingerprints: ["43:fa:05:30:79:cd:98:3d:6c:81:17:f1:f5:85:f5:0a"] 
-  #     - run:
-  #         name: Install Ansible
-  #         command: |
-  #           # Install Ansible
-  #           apk add --update ansible
-  #     - run:
-  #         name: Run Playbook and Configure server
-  #         command: |
-  #           # Your command
-  #           ansible-playbook aws.yml -i inventory.txt
-  # Exercise: Smoke Testing
+    #create infrastructure
+  create_infrastructure: 
+    docker:
+      - image: amazon/aws-cli
+    steps:
+      - checkout
+      - run:
+          name: Create Cloudformation Stack
+          command: |
+            aws cloudformation deploy \
+              --template-file template.yml \
+              --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
+              --region us-east-1
+    #configure infrastructure
+  configure_infrastructure: 
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+              # You can get this ID in the section where you registered the SSH Key
+              fingerprints: ["43:fa:05:30:79:cd:98:3d:6c:81:17:f1:f5:85:f5:0a"] 
+      - run:
+          name: Install Ansible
+          command: |
+            # Install Ansible
+            apk add --update ansible
+      - run:
+          name: Run Playbook and Configure server
+          command: |
+            # Your command
+            ansible-playbook aws.yml -i inventory.txt
+    #Smoke Testing
   smoke_test:
     docker:
       - image: alpine:latest
@@ -54,4 +55,6 @@ jobs:
 workflows:
   my_workflow:
     jobs:
+      - create_infrastructure
+      - configure_infrastructure
       - smoke_test
